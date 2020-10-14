@@ -1,13 +1,16 @@
-var Email = ""
-var questionItem = ""
-
+var Email = "";
+var questionItem = "";
+var itemList = loadItemList();
+/**
+ * 
+ */
 function login(){
     Email = document.getElementById("email_area").value;
     alert("Logged in as " + Email)
     document.getElementById("logged_in_message").innerHTML = "Logged in as " + Email;
 }
 
-function pullFromList(textFile = "germany.txt"){
+function loadItemList(textFile = "germany.txt"){
     var requestData = $.ajax({
         url:"getItemData.php",   
         type: "post",   
@@ -15,9 +18,34 @@ function pullFromList(textFile = "germany.txt"){
         data: {"textFile": textFile},
         async: false,
     })
-    arr = JSON.parse(requestData.responseText);
-    const randomElement = arr[Math.floor(Math.random() * arr.length)];
-    return randomElement;
+    itemList = JSON.parse(requestData.responseText);
+    return itemList;
+}
+
+/**
+ * Pops a random value from itemList and returns it
+ * If there are no more items, invokes noItemsLeft
+ * @param {String} textFile - optional param, name of file
+ */
+function pullFromList(textFile = "germany.txt"){
+    if (itemList.length > 0){
+        const randomIndex = Math.floor(Math.random() * itemList.length);
+        const randomElement = itemList[randomIndex];
+        itemList.splice(randomIndex, 1);
+        return randomElement;
+    }else{
+        noItemsLeft();
+        return "All done, have a nice day!";
+    }
+}
+/**
+ * Hides dataa entry box and submit button
+ */
+function noItemsLeft(){
+    var data_entry = document.getElementById("user_data");
+    data_entry.style.display = "none";
+    var data_entry = document.getElementById("user_data_button");
+    data_entry.style.display = "none";
 }
 
 function submitData(){
@@ -27,7 +55,6 @@ function submitData(){
     data["email"] = Email;
 
     data = JSON.stringify(data);
-    alert(data);
     try{
         $.ajax({
             url:"saveData.php",   
@@ -35,7 +62,7 @@ function submitData(){
             dataType: 'json',
             data: {"data": data},
             success:function(result){
-                alert("success")
+                // alert("success")
             }
         });
     }catch(e){
@@ -48,7 +75,7 @@ function submitData(){
 function loadNewItem(){
     questionItem = pullFromList();
     document.getElementById("item_area").innerHTML = questionItem;
-    document.getElementById("user_data").innerHTML = "";
+    document.getElementById("user_data").value = "";
 }
 
 function autocomplete(str){

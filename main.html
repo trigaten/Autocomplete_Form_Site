@@ -2,12 +2,11 @@
 <html lang="en">
     <head>
         <!-- loading javascript file -->
-        <script type="text/javascript" src="scripts.js"></script>
-        <!-- <script>require("scripts.js");</script> -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="scripts.js"></script>
 
-        <!-- style? -->
+        <!-- style autocomplete boxes -->
         <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/themes/smoothness/jquery-ui.css" />
         
     </head>
@@ -30,7 +29,7 @@
         </script>
 
         <!-- user data entry areas -->
-        <p><center>
+        <p id="data_entry"><center>
             <input type="text" id="user_data" rows="1" cols="40" class="searchbox"></input>
             <input type="button" id="user_data_button" value="Submit" onclick="submitData()"/>
         </center></p>
