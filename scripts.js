@@ -7,28 +7,15 @@ function login(){
     document.getElementById("logged_in_message").innerHTML = "Logged in as " + Email;
 }
 
-//https://stackoverflow.com/questions/23331546/how-to-use-javascript-to-read-local-text-file-and-read-line-by-line
-function pullFromList(input = "germany.txt"){
-    // const file = input.target.files[0];
-    // const reader = new FileReader();
-    // const arr = []
-    // reader.onload = (event) => {
-    //     const file = event.target.result;
-    //     const allLines = file.split(/\r\n|\n/);
-    //     // Reading line by line
-    //     allLines.forEach((line) => {
-    //         console.log(line);
-    //         arr.push(line)
-    //     });
-    // };
-
-    // return arr[0]
-    arr = ["Angela Merkel",
-        "Boris Becker",
-        "Guido Westerwelle",
-        "Thomas Mann",
-        "Hannah Höch"]
-
+function pullFromList(textFile = "germany.txt"){
+    var requestData = $.ajax({
+        url:"getItemData.php",   
+        type: "post",   
+        dataType: 'text',
+        data: {"textFile": textFile},
+        async: false,
+    })
+    arr = JSON.parse(requestData.responseText);
     const randomElement = arr[Math.floor(Math.random() * arr.length)];
     return randomElement;
 }
