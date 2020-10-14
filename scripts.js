@@ -1,16 +1,24 @@
 var Email = "";
 var questionItem = "";
 var itemList = loadItemList();
+
 /**
- * 
+ * "Logs user in" by saving their entered email
+ * It will be stored with data they submit
  */
 function login(){
     Email = document.getElementById("email_area").value;
-    alert("Logged in as " + Email)
+    // alert("Logged in as " + Email)
+    //HTML message that says they are logged in
     document.getElementById("logged_in_message").innerHTML = "Logged in as " + Email;
 }
 
+/**
+ * Loads itemList data into webpage (client side/frontend) memory 
+ * @param {String} textFile - location/name of file
+ */
 function loadItemList(textFile = "germany.txt"){
+    //Synchronous ajax call to getItemData.php
     var requestData = $.ajax({
         url:"getItemData.php",   
         type: "post",   
@@ -24,13 +32,14 @@ function loadItemList(textFile = "germany.txt"){
 
 /**
  * Pops a random value from itemList and returns it
- * If there are no more items, invokes noItemsLeft
- * @param {String} textFile - optional param, name of file
+ * If there are no more items, invokes noItemsLeft()
+ * @param {String} textFile - location/name of file
  */
 function pullFromList(textFile = "germany.txt"){
     if (itemList.length > 0){
         const randomIndex = Math.floor(Math.random() * itemList.length);
         const randomElement = itemList[randomIndex];
+        //remove element at randomIndex
         itemList.splice(randomIndex, 1);
         return randomElement;
     }else{
@@ -39,7 +48,7 @@ function pullFromList(textFile = "germany.txt"){
     }
 }
 /**
- * Hides dataa entry box and submit button
+ * Hides data entry box and submit button
  */
 function noItemsLeft(){
     var data_entry = document.getElementById("user_data");
@@ -48,6 +57,10 @@ function noItemsLeft(){
     data_entry.style.display = "none";
 }
 
+/**
+ * Called when submit button pressed
+ * Gets all user data and sends it to backend where it is saved
+ */
 function submitData(){
     var data = {};
     data["question_item"] = questionItem;
@@ -55,56 +68,23 @@ function submitData(){
     data["email"] = Email;
 
     data = JSON.stringify(data);
-    try{
-        $.ajax({
-            url:"saveData.php",   
-            type: "post",   
-            dataType: 'json',
-            data: {"data": data},
-            success:function(result){
-                // alert("success")
-            }
-        });
-    }catch(e){
-        console.log(e)
-    }
-
+    //sends data to saveData.php with ajax
+    $.ajax({
+        url:"saveData.php",   
+        type: "post",   
+        dataType: 'json',
+        data: {"data": data}
+    });
+    //loads new item and clears user response
     loadNewItem();
 }
 
+/**
+ * Updates question with new item
+ * Clears user response
+ */
 function loadNewItem(){
     questionItem = pullFromList();
     document.getElementById("item_area").innerHTML = questionItem;
     document.getElementById("user_data").value = "";
-}
-
-function autocomplete(str){
-    if (str.length == 0) {
-        document.getElementById("txtHint").innerHTML = "";
-        return;
-      } else {
-        var xmlhttp = new XMLHttpRequest();
-        xmlhttp.onreadystatechange = function() {
-          if (this.readyState == 4 && this.status == 200) {
-            document.getElementById("txtHint").innerHTML = this.responseText;
-          }
-        };
-        xmlhttp.open("GET", "gethint.php?q=" + str, true);
-        xmlhttp.send();
-      }
-}
-
-function search(request) {
-    $.ajax({
-        url: "http://en.wikipedia.org/w/api.php",
-        dataType: "jsonp",
-        data: {
-            'action': "opensearch",
-            'format': "json",
-            'search': request
-        },
-        success: function(data) {
-            response(data[1]);
-        }
-    });
 }
