@@ -19,23 +19,24 @@
 
         <!-- main page area -->
         <h1><center>Modulation Mockup</center></h1>
-
-	<div style="max-width:50%"><center><p>We are studying cultural differences between German and American wikipedia.  These are entities that are top 500 entities from Wikpedia for the German language.  Please type whichever AMERICAN entity you think is most similar to the provided German entity.  If you are unfamiliar with the entity, you may reference an outside source.  </p></center> </div>
+        <center><div style="max-width:50%"><p>
+            We are studying cultural differences between German and American wikipedia.  These are entities that are top 500 entities from Wikpedia for the German language.  Please type whichever AMERICAN entity you think is most similar to the provided German entity.  If you are unfamiliar with the entity, you may reference an outside source.
+        </p></div></center>
 
         <p><center>The following German Entity is most similar to which American Entity:</center> </p>
 
         <!-- Item pulled from list -->
         <p> <center><div id="item_area"></div></center> </p> 
-        <script>
-            loadNewItem();
-        </script>
-
+        
         <!-- user data entry areas -->
         <p id="data_entry"><center>
             <input type="text" id="user_data" rows="1" cols="40" class="searchbox"></input>
             <input type="button" id="user_data_button" value="Submit" onclick="submitData()"/>
         </center></p>
-
+        <script>
+            preLoad();
+            loadNewItem();
+        </script>
         <!-- Autocomplete Script from w3lessons-->
         <script type="text/javascript">
             $(".searchbox").autocomplete({

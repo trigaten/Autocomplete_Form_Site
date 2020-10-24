@@ -1,6 +1,24 @@
 var Email = "";
 var questionItem = "";
 var itemList = loadItemList();
+var currentItem = 0;
+
+/**
+ * First js function to be called
+ * Sets up currentItem data using saved cookie or creates a new cookie if there is no saved data
+ */
+function preLoad(){
+    var cookie = document.cookie
+    //if there is no saved data, make new cookie that expires in a long time
+    if (cookie == ""){
+        document.cookie = "i=0; expires=Fri, 31 Dec 9999 23:59:59 GMT"
+    }else{
+        splits = cookie.split(";")
+        data = splits[0]
+        dataSplit = data.split("=")
+        currentItem = parseInt(dataSplit[1])
+    }
+}
 
 /**
  * "Logs user in" by saving their entered email
@@ -11,6 +29,13 @@ function login(){
     // alert("Logged in as " + Email)
     //HTML message that says they are logged in
     document.getElementById("logged_in_message").innerHTML = "Logged in as " + Email;
+}
+
+/**
+ * updates the saved cookie with the new value of currentItem
+ */
+function updateCookie(){
+    document.cookie = "i=" + currentItem + "; expires=Fri, 31 Dec 9999 23:59:59 GMT";
 }
 
 /**
@@ -33,28 +58,23 @@ function loadItemList(textFile = "germany.txt"){
 /**
  * Pops a random value from itemList and returns it
  * If there are no more items, invokes noItemsLeft()
- * @param {String} textFile - location/name of file
  */
-function pullFromList(textFile = "germany.txt"){
-    if (itemList.length > 0){
-        const randomIndex = Math.floor(Math.random() * itemList.length);
-        const randomElement = itemList[randomIndex];
-        //remove element at randomIndex
-        itemList.splice(randomIndex, 1);
-        return randomElement;
+function pullFromList(){
+    if (itemList.length > 0 && itemList.length > currentItem){
+        return itemList[currentItem];
     }else{
-        noItemsLeft();
-        return "All done, have a nice day!";
+        return -1;
     }
 }
 /**
  * Hides data entry box and submit button
  */
 function noItemsLeft(){
-    var data_entry = document.getElementById("user_data");
-    data_entry.style.display = "none";
-    var data_entry = document.getElementById("user_data_button");
-    data_entry.style.display = "none";
+    var user_data = document.getElementById("user_data");
+    user_data.style.display = "none";
+    var user_data_button = document.getElementById("user_data_button");
+    user_data_button.style.display = "none";
+    document.getElementById("item_area").innerHTML = "All done, thank you";
 }
 
 /**
@@ -76,6 +96,8 @@ function submitData(){
             dataType: 'json',
             data: {"data": data}
         });
+        currentItem++;
+        updateCookie();
         //loads new item and clears user response
         loadNewItem();
     }else{
@@ -89,6 +111,11 @@ function submitData(){
  */
 function loadNewItem(){
     questionItem = pullFromList();
-    document.getElementById("item_area").innerHTML = questionItem;
-    document.getElementById("user_data").value = "";
+    if (questionItem != -1){
+        document.getElementById("user_data").value = "";
+        document.getElementById("item_area").innerHTML = questionItem;
+    }else{
+        noItemsLeft();
+    }
+    
 }
