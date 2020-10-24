@@ -62,21 +62,25 @@ function noItemsLeft(){
  * Gets all user data and sends it to backend where it is saved
  */
 function submitData(){
-    var data = {};
-    data["question_item"] = questionItem;
-    data["user_data"] = document.getElementById("user_data").value;
-    data["email"] = Email;
+    if (Email != ""){
+        var data = {};
+        data["question_item"] = questionItem;
+        data["user_data"] = document.getElementById("user_data").value;
+        data["email"] = Email;
 
-    data = JSON.stringify(data);
-    //sends data to saveData.php with ajax
-    $.ajax({
-        url:"saveData.php",   
-        type: "post",   
-        dataType: 'json',
-        data: {"data": data}
-    });
-    //loads new item and clears user response
-    loadNewItem();
+        data = JSON.stringify(data);
+        //sends data to saveData.php with ajax
+        $.ajax({
+            url:"saveData.php",   
+            type: "post",   
+            dataType: 'json',
+            data: {"data": data}
+        });
+        //loads new item and clears user response
+        loadNewItem();
+    }else{
+        alert("Please login before submitting data");
+    }
 }
 
 /**
