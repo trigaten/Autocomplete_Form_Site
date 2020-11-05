@@ -9,8 +9,6 @@
         <!-- style autocomplete boxes -->
         <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/themes/smoothness/jquery-ui.css" />
         
-
-        
     </head>
 
     <body>
@@ -28,8 +26,8 @@
         <p><center>The following German Entity is most similar to which American Entity:</center> </p>
 
         <!-- Item pulled from list -->
-        <p> <center><div id="item_area"></div></center> </p> 
-        
+        <p> <center><div id="item_area"></div></center> </p>
+        <p> <center><div style="max-width:50%" id="item_description_area"></div></center> </p>
         <!-- user data entry areas -->
         <p id="data_entry"><center>
             <input type="text" id="user_data" rows="1" cols="40" class="searchbox"></input>
@@ -44,7 +42,7 @@
             try{
             // preLoad();
             loadNewItem();
-            }catch(e){alert(e)}
+            }catch(e){alert("load error " + e)}
         </script>
         <!-- Autocomplete Script from w3lessons-->
         <script type="text/javascript">
@@ -73,5 +71,6 @@
             $('#item_selector').html(select);
         </script>
         
+
     </body>
 </html>

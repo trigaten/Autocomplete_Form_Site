@@ -71,6 +71,7 @@ function pullFromList(){
         return -1;
     }
 }
+
 /**
  * Returns length of the item list
  */
@@ -127,8 +128,9 @@ function loadNewItem(){
     questionItem = pullFromList();
     if (questionItem != -1){
         document.getElementById("user_data").value = "";
-        document.getElementById("item_area").innerHTML = questionItem;
+        document.getElementById("item_area").innerHTML = "<b>"+questionItem+"</b>";
         document.getElementById("item_selector").value = currentItem+1;
+        document.getElementById("item_description_area").innerHTML = getSuggestionDescription(questionItem);
     }else{
         noItemsLeft();
     }
@@ -144,10 +146,23 @@ function loadItemAtIndex(){
         item = itemList[index];
     }
     if (item != -1){
-        document.getElementById("item_area").innerHTML = item;
+        document.getElementById("item_area").innerHTML = "<b>"+item+"</b>";
+        document.getElementById("item_description_area").innerHTML = getSuggestionDescription(item);
         currentItem = index;
     }else{
         noItemsLeft();
     }
     
+}
+
+function getSuggestionDescription(str){
+    var requestData = $.ajax({
+        url:"getDescription.php",   
+        type: "post",   
+        dataType: 'text',
+        data: {"str": str},
+        async: false,
+    })
+    let response = requestData.responseText;
+    return response
 }
