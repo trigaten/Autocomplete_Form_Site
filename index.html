@@ -9,6 +9,8 @@
         <!-- style autocomplete boxes -->
         <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/themes/smoothness/jquery-ui.css" />
         
+
+        
     </head>
 
     <body>
@@ -33,9 +35,16 @@
             <input type="text" id="user_data" rows="1" cols="40" class="searchbox"></input>
             <input type="button" id="user_data_button" value="Submit" onclick="submitData()"/>
         </center></p>
+
+        <div id="item_selection_area">
+            <select id="item_selector" onchange="loadItemAtIndex()"></select>
+            Skip to a question.
+        </div>
         <script>
-            preLoad();
+            try{
+            // preLoad();
             loadNewItem();
+            }catch(e){alert(e)}
         </script>
         <!-- Autocomplete Script from w3lessons-->
         <script type="text/javascript">
@@ -56,6 +65,13 @@
                     });
                 }
             });
+            
+            var select = '';
+            for (i=1;i<=getLengthOfList();i++){
+                select += '<option val=' + i + '>' + i + '</option>';
+            }
+            $('#item_selector').html(select);
         </script>
+        
     </body>
 </html>

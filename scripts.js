@@ -1,21 +1,25 @@
 var Email = "";
 var questionItem = "";
+try{
 var itemList = loadItemList();
+}catch(e){alert(e);}
 var currentItem = 0;
 
 /**
+ * UNUSED due to switch from cookies to drop down menu
  * First js function to be called
  * Sets up currentItem data using saved cookie or creates a new cookie if there is no saved data
  */
 function preLoad(){
     var cookie = document.cookie
+
     //if there is no saved data, make new cookie that expires in a long time
     if (cookie == ""){
         document.cookie = "i=0; expires=Fri, 31 Dec 9999 23:59:59 GMT"
     }else{
-        splits = cookie.split(";")
-        data = splits[0]
-        dataSplit = data.split("=")
+        let splits = cookie.split(";")
+        let data = splits[0]
+        let dataSplit = data.split("=")
         currentItem = parseInt(dataSplit[1])
     }
 }
@@ -32,6 +36,7 @@ function login(){
 }
 
 /**
+ * UNUSED due to switch from cookies to drop down
  * updates the saved cookie with the new value of currentItem
  */
 function updateCookie(){
@@ -67,13 +72,22 @@ function pullFromList(){
     }
 }
 /**
- * Hides data entry box and submit button
+ * Returns length of the item list
+ */
+function getLengthOfList(){
+    return itemList.length;
+}
+
+/**
+ * Hides data entry information
  */
 function noItemsLeft(){
-    var user_data = document.getElementById("user_data");
+    let user_data = document.getElementById("user_data");
     user_data.style.display = "none";
-    var user_data_button = document.getElementById("user_data_button");
+    let user_data_button = document.getElementById("user_data_button");
     user_data_button.style.display = "none";
+    let item_selection_area = document.getElementById("item_selection_area");
+    item_selection_area.style.visibility = "hidden";
     document.getElementById("item_area").innerHTML = "All done, thank you";
 }
 
@@ -97,7 +111,7 @@ function submitData(){
             data: {"data": data}
         });
         currentItem++;
-        updateCookie();
+        // updateCookie();
         //loads new item and clears user response
         loadNewItem();
     }else{
@@ -114,6 +128,24 @@ function loadNewItem(){
     if (questionItem != -1){
         document.getElementById("user_data").value = "";
         document.getElementById("item_area").innerHTML = questionItem;
+        document.getElementById("item_selector").value = currentItem+1;
+    }else{
+        noItemsLeft();
+    }
+}
+
+/**
+ * Changes question to item at user selected index
+ */
+function loadItemAtIndex(){
+    let index = parseInt(document.getElementById("item_selector").value)-1;
+    let item = -1
+    if (itemList.length > 0 && itemList.length > index){
+        item = itemList[index];
+    }
+    if (item != -1){
+        document.getElementById("item_area").innerHTML = item;
+        currentItem = index;
     }else{
         noItemsLeft();
     }
