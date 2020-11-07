@@ -130,7 +130,7 @@ function loadNewItem(){
         document.getElementById("user_data").value = "";
         document.getElementById("item_area").innerHTML = "<b>"+questionItem+"</b>";
         document.getElementById("item_selector").value = currentItem+1;
-        document.getElementById("item_description_area").innerHTML = getSuggestionDescription(questionItem);
+        setSuggestionDescription(questionItem);
     }else{
         noItemsLeft();
     }
@@ -147,7 +147,7 @@ function loadItemAtIndex(){
     }
     if (item != -1){
         document.getElementById("item_area").innerHTML = "<b>"+item+"</b>";
-        document.getElementById("item_description_area").innerHTML = getSuggestionDescription(item);
+        setSuggestionDescription(item);
         currentItem = index;
     }else{
         noItemsLeft();
@@ -155,14 +155,88 @@ function loadItemAtIndex(){
     
 }
 
-function getSuggestionDescription(str){
-    var requestData = $.ajax({
-        url:"getDescription.php",   
-        type: "post",   
-        dataType: 'text',
-        data: {"str": str},
-        async: false,
+function setSuggestionDescription(searchString){
+//// document.getElementById("item_description_area").innerHTML = 
+    let url = `https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro&explaintext&redirects=1&titles=${searchString}&exsentences=2`
+    alert(url)
+    $.ajax({
+        type: "GET",
+        url: url,
+        origin: "*",
+        dataType: "jsonp",
+        aysnc: false,
+        success: function(data){
+            let query = data.query;
+            let pages = query.pages;
+            let page = Object.values(pages)[0];
+            let extract = page.extract;
+            if (extract != undefined){
+                document.getElementById("item_description_area").innerHTML = page.extract
+            }else{
+                document.getElementById("item_description_area").innerHTML = "No English description."
+            }
+        }
     })
-    let response = requestData.responseText;
-    return response
+    // console.log(JSON.parse(x.responseText));
+    // // await x.query.pages.forEach(page =>{
+    // //     alert("D")
+    // // })
+    // console.log(x.query.pages)
+    // var m = x.query.pages;
+    // console.log(m)
+    // for (var t of m){
+    //     alert("E")
+    // }
+    // // var v = await m[0]
+    // console.log(v)
+    // console.log(m.stringify())
+    // .then(function(data){
+    //     alert(data)
+    // })
+    // .then(data){
+
+    // };
+
+    // $.ajax({
+    //     url: 'url',
+    //     error: function(error) {
+    //       alert("error " + error)
+    //     },
+    //     dataType: 'json',
+    //     success: function(data) {
+    //       alert(data)
+    //     },
+    //     type: 'GET'
+    //   });
+
+    // $.ajax({
+    //     type: 'GET',
+    //     url: url,
+    //     dataType: 'json',
+    //     async: false,
+    //     success: function (data) {
+    //       alert("STR " + typeof data)
+    //     },
+    //     error: function(error){
+    //         alert("ER" + error)
+    //     }
+    //   });
+    
+    
+    // var requestData = $.ajax({
+    //     url: url, 
+    //     dataType: "jsonp",
+    //     success:function(result){alert(result)}
+    // })
+    // alert("F")
+    // alert(requestData)
+    // var requestData = $.ajax({
+    //     url:"getDescription.php",   
+    //     type: "post",   
+    //     dataType: 'text',
+    //     data: {"str": str},
+    //     async: false
+    // })
+    // let response = requestData.responseText;
+    // return response
 }

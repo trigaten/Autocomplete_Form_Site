@@ -1,5 +1,6 @@
-<?php
 
+<?php
+//Unused as switched to javascript query of Wikipedia API
 $keyword = $_POST['str'];
 
 function getDescription($keyword){
