@@ -9,6 +9,21 @@
         <!-- style autocomplete boxes -->
         <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/themes/smoothness/jquery-ui.css" />
         
+	<style>	
+outer {
+  width: 200px;
+  margin: 0 auto;
+  background-color: yellow;
+}
+
+.inner {
+  margin-left: 5%;
+  background-color: aliceblue;
+  max-width:80%;
+  
+}
+</style>
+
     </head>
 
     <body>
@@ -18,10 +33,12 @@
         <div id="logged_in_message">Currently not logged in</div>
 
         <!-- main page area -->
-        <h1><center>Modulation Mockup</center></h1>
-        <center><div style="max-width:50%"><p>
+        <h1><center>Modulation</center></h1>
+        
+<div class="outer">
+  <div class="inner">	<p>
             We are studying cultural differences between German and American wikipedia.  These are entities that are top 500 entities from Wikpedia for the German language.  Please type whichever AMERICAN entity you think is most similar to the provided German entity.  If you are unfamiliar with the entity, you may reference an outside source.
-        </p></div></center>
+        </p></div></div>
 
         <p><center>The following German Entity is most similar to which American Entity:</center> </p>
 
@@ -34,10 +51,10 @@
             <input type="button" id="user_data_button" value="Submit" onclick="submitData()"/>
         </center></p>
 
-        <div id="item_selection_area">
+        <center><div id="item_selection_area">
             <select id="item_selector" onchange="loadItemAtIndex()"></select>
             Skip to a question.
-        </div>
+        </div></center>
         <script>
             try{
             // preLoad();
@@ -72,6 +89,30 @@
             $('#item_selector').html(select);
         </script>
         
+
+ <div class="outer">
+  <div class="inner"><p>
+ <b> Examples: </b> <br>
+
+Michael Schumaher: Michael Jordan <br>
+<i> Why?  Both most famous athletes.  </i><br><br>
+
+Berlin: Washington D.C. <br>
+<i> Why? Both are capitals. </i><br><br>
+
+Angela Merkel: ? <br>
+<i>It could be Donald Trump if you think the current president is the most important consideration
+Or Hillary Clinton if you think a woman at the top of the political world.
+Or a scientist politician, or Mitt Romney due to political views.  </i><br>
+<br>
+*This may not be symmetrical.  Berlin may be the German Washington D.C. but Washington D.C. may not be the American Berlin.  <br>
+
+*You can propose the same analogy for multiple entities.  For example, Berlin and Munich may both be similar to Washington D.C. in your opinion (as the capital or as the cultural hub of the country respectively).<br>
+
+*Bad analogies are based on literal names: Michael Schumacher is not similar to Michael Bay just because their names are Michael, and not Shoemaker just because it’s a translation or how it sounds.  
+
+
+ </p></div></div>
 
     </body>
 </html>
