@@ -157,7 +157,7 @@ function loadItemAtIndex(){
 
 function setSuggestionDescription(searchString){
 //// document.getElementById("item_description_area").innerHTML = 
-    let url = `https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro&explaintext&redirects=1&titles=${searchString}`
+    let url = `https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro&explaintext&redirects=1&titles=${searchString}&exsentences=5`
     $.ajax({
         type: "GET",
         url: url,
