@@ -2,7 +2,7 @@ var Email = "";
 var questionItem = "";
 try{
 var itemList = loadItemList();
-}catch(e){alert(e);}
+}catch(e){alert("Error " + e);}
 var currentItem = 0;
 
 /**
