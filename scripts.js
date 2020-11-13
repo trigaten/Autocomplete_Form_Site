@@ -150,7 +150,6 @@ function loadItemAtIndex(){
         setSuggestionDescription(item);
         currentItem = index;
         questionItem = item;
-        alert(currentItem)
     }else{
         noItemsLeft();
     }
