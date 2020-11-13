@@ -149,10 +149,11 @@ function loadItemAtIndex(){
         document.getElementById("item_area").innerHTML = "<b>"+item+"</b>";
         setSuggestionDescription(item);
         currentItem = index;
+        questionItem = item;
+        alert(currentItem)
     }else{
         noItemsLeft();
     }
-    
 }
 
 function setSuggestionDescription(searchString){
